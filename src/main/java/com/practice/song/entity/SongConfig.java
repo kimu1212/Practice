@@ -22,5 +22,8 @@ public class SongConfig {
     public int getStatus(){
         return status;
     }
-    
+
+    public void setName(){
+        this.name = name;
+    }
 }

@@ -26,4 +26,12 @@ public class SongConfig {
     public void setName(){
         this.name = name;
     }
+
+    public void setId(){
+        this.id = id;
+    }
+
+    public void setStatus(){
+        this.status = status;
+    }
 }

@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="music")
+@Table(name = "music")
 public class SongConfig {
 
     @Id
@@ -19,27 +19,27 @@ public class SongConfig {
     @Column(name = "status")
     private int status;
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public int getStatus(){
+    public int getStatus() {
         return status;
     }
 
-    public void setName(){
+    public void setName() {
         this.name = name;
     }
 
-    public void setId(){
+    public void setId() {
         this.id = id;
     }
 
-    public void setStatus(){
+    public void setStatus() {
         this.status = status;
     }
 }

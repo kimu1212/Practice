@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 @Controller
 public class OutputController {
     @RequestMapping("/home")
-    public String home(Model model){
+    public String home(Model model) {
         model.addAttribute("music", "trackNum");
         return "test";
     }

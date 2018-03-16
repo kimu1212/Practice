@@ -1,14 +1,22 @@
 package com.practice.song.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="music")
 public class SongConfig {
 
     @Id
-    private int id;
+    @Column(name = "id")
+    private Integer id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "status")
     private int status;
 
     public String getName(){

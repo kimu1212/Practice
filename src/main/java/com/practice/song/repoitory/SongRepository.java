@@ -1,11 +1,11 @@
 package com.practice.song.repoitory;
 
 import com.practice.song.entity.SongConfig;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.Repository;
+import java.util.List;
 
 
-public interface SongRepository extends Repository<SongConfig, String> {
-    Page<SongConfig> findAll(Pageable pageable);
+public interface SongRepository extends JpaRepository<SongConfig, String> {
+    public List<SongConfig> findById(int id);
 }

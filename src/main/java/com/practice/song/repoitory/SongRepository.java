@@ -6,6 +6,5 @@ import org.springframework.data.repository.Repository;
 import java.util.List;
 
 
-public interface SongRepository extends JpaRepository<SongConfig, String> {
-    public List<SongConfig> findById(int id);
+public interface SongRepository extends JpaRepository<SongConfig, Integer> {
 }

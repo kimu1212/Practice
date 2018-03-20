@@ -6,9 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
+import java.io.Serializable;
 
 @Entity
-public class SongConfig {
+public class SongConfig implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

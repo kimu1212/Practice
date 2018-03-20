@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.math.*;
+import java.util.Random;
 
 
 @Controller
@@ -19,7 +21,9 @@ public class SongController {
     @RequestMapping()
     public String song(Model model){
         List<Song> songs = service.findAll();
-        model.addAttribute("Songs", songs.get(0));
+        Random rand = new Random();
+        System.out.println(songs.size());
+        model.addAttribute("Songs", songs.get(rand.nextInt(songs.size())));
         return "song";
     }
 

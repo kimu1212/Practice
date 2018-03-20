@@ -9,7 +9,8 @@ import javax.persistence.GeneratedValue;
 import java.io.Serializable;
 
 @Entity
-public class SongConfig implements Serializable {
+@Table(name = "music")
+public class Song implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

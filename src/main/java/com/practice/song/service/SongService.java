@@ -1,10 +1,12 @@
 package com.practice.song.service;
 
-import com.practice.song.entity.SongConfig;
+import com.practice.song.entity.Song;
 import com.practice.song.repoitory.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SongService {
@@ -19,4 +21,7 @@ public class SongService {
 //        Song[] peekQueue();
 //    }
 //
+    public List<Song> findAll() {
+        return repository.findAll(new Sort(Sort.Direction.ASC, "id"));
+    }
 }

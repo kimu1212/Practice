@@ -11,10 +11,12 @@ public class SongService {
 
     @Autowired
     SongRepository repository;
-
-    public SongConfig search(Integer id){
-
-        return song;
-    }
-
+    //TODO: 各メソッドの定義は後々
+//    public final int PEEKMAX = 5;
+//    interface SuffleEngine{
+//        void setSongs(Song[] songs);
+//        Songs[] getNextSong();
+//        Song[] peekQueue();
+//    }
+//
 }

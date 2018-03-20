@@ -17,4 +17,11 @@ public class SongController {
     @Autowired
     private SongRepository repository;
 
+    @RequestMapping(value = "/song", method = RequestMethod.POST)
+    public String find(Model model, @RequestParam("find") int id){
+        SongConfig song = repository.getOne(id);
+        model.addAttribute("Songs", song);
+        return "test";
+    }
+
 }

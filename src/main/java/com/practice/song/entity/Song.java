@@ -37,7 +37,7 @@ public class Song implements Serializable {
         this.name = name;
     }
 
-    public void setStatus() {
+    public void setStatus(int i) {
         this.status = status;
     }
 }

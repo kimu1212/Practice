@@ -20,7 +20,7 @@ public class SongController {
     public String song(Model model){
         List<Song> songs = service.findAll();
         Random rand = new Random();
-        model.addAttribute("Songs", songs.get(rand.nextInt(songs.size())));
+        model.addAttribute("Songs", service.getNextSong());
         return "song";
     }
 

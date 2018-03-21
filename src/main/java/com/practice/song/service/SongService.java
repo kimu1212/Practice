@@ -15,71 +15,81 @@ public class SongService {
 
     @Autowired
     SongRepository repository;
-
+    private final int PEEKMAX = 5; // 何曲後まで格納するか
+    private Song nextSong;
     private List<Song> allSong = findAll();
-    private List<Song> targetSong = storeTarget();
-    private List<Song> songBox = new ArrayList<>(); // シャッフル楽曲格納用
+    private List<Song> songBox = StoreSong(PEEKMAX); // シャッフル楽曲格納用
 
-    //TODO: 各メソッドの定義は後々
-    public final int PEEKMAX = 5;
-
-    interface ShuffleEngine {
-        void setSongs(Song[] songs);
-
-        Song getNextSong();
-
-        List<Song> peekQueue();
-    }
 
     /**
      * ランダム5曲のリストを返す
      *
      * @return songBox
      */
-    public Song peekQueue() {
-        if (PEEKMAX <= targetSong.size()) {
-            songBox = StoreSong(PEEKMAX, targetSong);
-        }
-        return (Song) songBox;
+    public List<Song> peekQueue() {
+        return songBox;
     }
 
     /**
      * 音楽をシャッフルして格納
      *
-     * @param end        格納の回数(未再生の楽曲の数 Max:5)
-     * @param targetSong 未再生音楽のリスト
+     * @param end 格納の回数(未再生の楽曲の数 Max:5)
      * @return songBox
      */
-    private List<Song> StoreSong(int end, List<Song> targetSong) {
+    private List<Song> StoreSong(int end) {
         int count = 0;
         List<Song> songBox = new ArrayList<>(); // シャッフル楽曲格納用
         Random rand = new Random();
         while (count < end) {
-            int i = rand.nextInt(targetSong.size());
-            if (targetSong.get(i).getStatus() == 0) {
-                songBox.add(targetSong.get(i));
-                targetSong.get(i).setStatus(1);
+            int i = rand.nextInt(allSong.size());
+            if (allSong.get(i).getStatus() == 0) {
+                songBox.add(allSong.get(i));
+                allSong.get(i).setStatus(1);
                 count++;
             }
         }
         return songBox;
     }
 
-    private List<Song> storeTarget() {
-        List<Song> targetSong = new ArrayList<>();
-        resetStatus();
-        for (int c = 0; c < allSong.size(); c++) {
-            int status = allSong.get(c).getStatus();
-            switch (status) {
+
+    /**
+     * 次の曲を決定し、後の５曲(songBox)を更新
+     */
+    public Song getNextSong() {
+        Random rand = new Random();
+        nextSong = songBox.get(0);
+        int r = rand.nextInt(allSong.size());
+        songBox.remove(0);
+        if(countStatus() == 0){ // 全部再生し終えたらstatusをリセット
+            resetStatus();
+        }
+        while (true) {
+            if (allSong.get(r).getStatus() == 0) {
+                songBox.add(allSong.get(r));
+                allSong.get(r).setStatus(1);
+                break;
+            }
+        }
+        return nextSong;
+    }
+
+
+    private int countStatus() {
+        int count = 0;
+        for(int i = 0; i < allSong.size(); i++){
+            int status = allSong.get(i).getStatus();
+            switch (status){
                 case 0:
-                    targetSong.add(allSong.get(c));
+                    count++;
                     break;
+
                 case 1:
                     break;
             }
         }
-        return targetSong;
+        return count;
     }
+
 
     /**
      * テーブル内のStatusを全て0(未再生)に書き換える

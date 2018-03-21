@@ -5,6 +5,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p th:text="${Songs.getName()}" ></p>
+---Play---
+<p th:text="${Next.getName()}" ></p>
+
+---NextMusic--
+<p th:text="${Songs.get(0).getName()}" ></p>
+<p th:text="${Songs.get(1).getName()}" ></p>
+<p th:text="${Songs.get(2).getName()}" ></p>
+<p th:text="${Songs.get(3).getName()}" ></p>
+<p th:text="${Songs.get(4).getName()}" ></p>
 </body>
 </html>

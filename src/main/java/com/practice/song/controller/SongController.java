@@ -22,7 +22,7 @@ public class SongController {
     @RequestMapping("/song")
     public String song(Model model) {
         List<Song> songs = service.findAll();
-        if(service.returnCount() == 0){
+        if (service.returnCount() == 0) {
             songBox = StoreSong(PEEKMAX, songs);
         }
         Song nextSong = getNextSong(songs);
@@ -31,12 +31,6 @@ public class SongController {
         model.addAttribute("Next", nextSong);
         return "song";
     }
-
-
-
-    //private List<Song> allSong = service.findAll();
-    //private List<Song> songBox = StoreSong(PEEKMAX); // シャッフル楽曲格納用
-
 
     /**
      * ランダム5曲のリストを返す
@@ -49,20 +43,32 @@ public class SongController {
 
     /**
      * 音楽をシャッフルして格納
-     *
      * @param end 格納の回数(未再生の楽曲の数 Max:5)
+     * @param allSong データベース内の楽曲
      * @return songBox 次の5曲
      */
     private List<Song> StoreSong(int end, List<Song> allSong) {
         int count = 0;
         List<Song> songBox = new ArrayList<>(); // シャッフル楽曲格納用
         Random rand = new Random();
-        while (count < end) {
+        while (count < end) { // PEEKMAX分だけsongBoxに曲を格納
             int i = rand.nextInt(allSong.size());
             if (allSong.get(i).getStatus() == 0) {
-                songBox.add(allSong.get(i));
-                allSong.get(i).setStatus(1);
-                count++;
+                if(songBox == null){  // PEEKMAXがデータベースのデータ数を上回った時用
+                    if (songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()){
+                        songBox.add(allSong.get(i));
+                        allSong.get(i).setStatus(1);
+                        count++;
+                    }
+                }
+                else {
+                    songBox.add(allSong.get(i));
+                    allSong.get(i).setStatus(1);
+                    count++;
+                }
+            }
+            if (countStatus(allSong) == 0){ // もし全ての曲を格納した場合はstatusを0に戻す
+                resetStatus(allSong);
             }
         }
         return songBox;
@@ -71,6 +77,8 @@ public class SongController {
 
     /**
      * 次の曲を決定し、次の5曲(songBox)を更新
+     * @param allSong データベースの楽曲
+     * @return nextSong
      */
     private Song getNextSong(List<Song> allSong) {
         Random rand = new Random();
@@ -81,7 +89,9 @@ public class SongController {
         }
         while (true) {
             int r = rand.nextInt(allSong.size());
-            if (allSong.get(r).getStatus() == 0 & allSong.get(r).getId() !=songBox.get(4).getId()) {
+
+            // 未再生かつ前後で楽曲が被らないように
+            if (allSong.get(r).getStatus() == 0 & allSong.get(r).getId() != songBox.get(songBox.size() - 1).getId()) {
                 songBox.add(allSong.get(r));
                 allSong.get(r).setStatus(1);
                 songBox.remove(0);
@@ -91,7 +101,11 @@ public class SongController {
         return nextSong;
     }
 
-
+    /**
+     * 未再生データをカウント
+     * @param allSong データベース内の楽曲
+     * @return count
+     */
     private int countStatus(List<Song> allSong) {
         int count = 0;
         for (int i = 0; i < allSong.size(); i++) {
@@ -107,7 +121,6 @@ public class SongController {
         }
         return count;
     }
-
 
     /**
      * テーブル内のStatusを全て0(未再生)に書き換える

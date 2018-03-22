@@ -18,7 +18,7 @@ public class SongController {
     private final int PEEKMAX = 5; // 何曲後まで格納するか
     private List<Song> songBox;
 
-    @RequestMapping("/song")
+    @RequestMapping(path = "/song", method = RequestMethod.GET)
     public String song(Model model) {
         List<Song> songs = service.findAll();
         if (service.returnCount() == 0) {

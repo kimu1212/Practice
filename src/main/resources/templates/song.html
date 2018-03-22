@@ -7,12 +7,14 @@
 <body>
 ---Play---
 <p th:text="${Next.getName()}"></p>
-
 ---NextMusic--
 <p th:text="${Songs.get(0).getName()}"></p>
 <p th:text="${Songs.get(1).getName()}"></p>
 <p th:text="${Songs.get(2).getName()}"></p>
 <p th:text="${Songs.get(3).getName()}"></p>
 <p th:text="${Songs.get(4).getName()}"></p>
+<form method="get">
+    <button type="update">NEXT</button>
+</form>
 </body>
 </html>

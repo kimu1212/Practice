@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 @Controller
 public class SongController {
     @Autowired
@@ -43,7 +42,8 @@ public class SongController {
 
     /**
      * 音楽をシャッフルして格納
-     * @param end 格納の回数(未再生の楽曲の数 Max:5)
+     *
+     * @param end     格納の回数(未再生の楽曲の数 Max:5)
      * @param allSong データベース内の楽曲
      * @return songBox 次の5曲
      */
@@ -54,20 +54,19 @@ public class SongController {
         while (count < end) { // PEEKMAX分だけsongBoxに曲を格納
             int i = rand.nextInt(allSong.size());
             if (allSong.get(i).getStatus() == 0) {
-                if(songBox == null){  // PEEKMAXがデータベースのデータ数を上回った時用
-                    if (songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()){
+                if (songBox == null) {  // PEEKMAXがデータベースのデータ数を上回った時用
+                    if (songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()) {
                         songBox.add(allSong.get(i));
                         allSong.get(i).setStatus(1);
                         count++;
                     }
-                }
-                else {
+                } else {
                     songBox.add(allSong.get(i));
                     allSong.get(i).setStatus(1);
                     count++;
                 }
             }
-            if (countStatus(allSong) == 0){ // もし全ての曲を格納した場合はstatusを0に戻す
+            if (countStatus(allSong) == 0) { // もし全ての曲を格納した場合はstatusを0に戻す
                 resetStatus(allSong);
             }
         }
@@ -77,6 +76,7 @@ public class SongController {
 
     /**
      * 次の曲を決定し、次の5曲(songBox)を更新
+     *
      * @param allSong データベースの楽曲
      * @return nextSong
      */
@@ -103,6 +103,7 @@ public class SongController {
 
     /**
      * 未再生データをカウント
+     *
      * @param allSong データベース内の楽曲
      * @return count
      */

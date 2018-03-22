@@ -8,20 +8,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class SongService {
 
     @Autowired
     SongRepository repository;
-    //TODO: 各メソッドの定義は後々
-//    public final int PEEKMAX = 5;
-//    interface SuffleEngine{
-//        void setSongs(Song[] songs);
-//        Songs[] getNextSong();
-//        Song[] peekQueue();
-//    }
-//
-
+    private int count = -1;
+    public int returnCount() {
+        count++;
+        return count;
+    }
     public List<Song> findAll() {
         return repository.findAll(new Sort(Sort.Direction.ASC, "id"));
     }

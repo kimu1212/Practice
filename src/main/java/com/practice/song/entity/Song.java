@@ -33,11 +33,11 @@ public class Song implements Serializable {
         return status;
     }
 
-    public void setName() {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setStatus() {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

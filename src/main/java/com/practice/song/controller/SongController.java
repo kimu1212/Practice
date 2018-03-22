@@ -21,7 +21,7 @@ public class SongController {
     @RequestMapping(path = "/song", method = RequestMethod.GET)
     public String song(Model model) {
         List<Song> songs = service.findAll();
-        if (service.returnCount() == 0) {
+        if (songBox == null) {
             songBox = StoreSong(PEEKMAX, songs);
         }
         Song nextSong = getNextSong(songs);

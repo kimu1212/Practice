@@ -13,12 +13,6 @@ public class SongService {
 
     @Autowired
     SongRepository repository;
-    private int count = -1;
-
-    public int returnCount() {
-        count++;
-        return count;
-    }
 
     public List<Song> findAll() {
         return repository.findAll(new Sort(Sort.Direction.ASC, "id"));

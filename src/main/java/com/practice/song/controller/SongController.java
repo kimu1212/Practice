@@ -19,10 +19,9 @@ public class SongController {
     private final int PEEKMAX = 5; // 何曲後まで格納するか
     private List<Song> songBox;
 
-    @RequestMapping()
+    @RequestMapping("/song")
     public String song(Model model) {
         List<Song> songs = service.findAll();
-        Random rand = new Random();
         if(service.returnCount() == 0){
             songBox = StoreSong(PEEKMAX, songs);
         }
@@ -44,7 +43,7 @@ public class SongController {
      *
      * @return songBox
      */
-    public List<Song> peekQueue() {
+    private List<Song> peekQueue() {
         return songBox;
     }
 
@@ -52,7 +51,7 @@ public class SongController {
      * 音楽をシャッフルして格納
      *
      * @param end 格納の回数(未再生の楽曲の数 Max:5)
-     * @return songBox
+     * @return songBox 次の5曲
      */
     private List<Song> StoreSong(int end, List<Song> allSong) {
         int count = 0;
@@ -71,20 +70,21 @@ public class SongController {
 
 
     /**
-     * 次の曲を決定し、後の５曲(songBox)を更新
+     * 次の曲を決定し、次の5曲(songBox)を更新
      */
-    public Song getNextSong(List<Song> allSong) {
+    private Song getNextSong(List<Song> allSong) {
         Random rand = new Random();
         Song nextSong = songBox.get(0);
-        int r = rand.nextInt(allSong.size());
-        songBox.remove(0);
+
         if (countStatus(allSong) == 0) { // 全部再生し終えたらstatusをリセット
             resetStatus(allSong);
         }
         while (true) {
-            if (allSong.get(r).getStatus() == 0) {
+            int r = rand.nextInt(allSong.size());
+            if (allSong.get(r).getStatus() == 0 & allSong.get(r).getId() !=songBox.get(4).getId()) {
                 songBox.add(allSong.get(r));
                 allSong.get(r).setStatus(1);
+                songBox.remove(0);
                 break;
             }
         }

@@ -42,11 +42,18 @@ public class SongController {
         Random rand = new Random();
         while (count < end) { // PEEKMAX分だけsongBoxに曲を格納
             int i = rand.nextInt(allSong.size());
-            if (allSong.get(i).getStatus() == 0 && songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()) {
-                
-                songBox.add(allSong.get(i));
-                allSong.get(i).setStatus(1);
-                count++;
+            if (allSong.get(i).getStatus() == 0) {
+                if (songBox.size() > 0) {  // PEEKMAXがデータベースのデータ数を上回った時用
+                    if (songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()) {
+                        songBox.add(allSong.get(i));
+                        allSong.get(i).setStatus(1);
+                        count++;
+                    }
+                } else {
+                    songBox.add(allSong.get(i));
+                    allSong.get(i).setStatus(1);
+                    count++;
+                }
             }
             if (countStatus(allSong) == 0) { // もし全ての曲を格納した場合はstatusを0に戻す
                 resetStatus(allSong);

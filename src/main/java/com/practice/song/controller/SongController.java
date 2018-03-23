@@ -16,55 +16,37 @@ public class SongController {
     @Autowired
     private SongService service;
     private final int PEEKMAX = 5; // 何曲後まで格納するか
-    private List<Song> songBox;
+    private List<Song> songBox; // PEEKMAX曲後までの楽曲を格納する
 
     @RequestMapping(path = "/song", method = RequestMethod.GET)
     public String song(Model model) {
         List<Song> songs = service.findAll();
         if (songBox == null) {
-            songBox = StoreSong(PEEKMAX, songs);
+            songBox = peekQueue(PEEKMAX, songs);
         }
-        Song nextSong = getNextSong(songs);
-
-        model.addAttribute("Songs", peekQueue());
-        model.addAttribute("Next", nextSong);
+        model.addAttribute("Songs", songBox);
+        model.addAttribute("Next", getNextSong(songs));
         return "song";
     }
 
     /**
-     * ランダム5曲のリストを返す
-     *
-     * @return songBox
-     */
-    private List<Song> peekQueue() {
-        return songBox;
-    }
-
-    /**
-     * 音楽をシャッフルして格納
+     * PEEKMAX個の曲をシャッフルして格納
      *
      * @param end     格納の回数(未再生の楽曲の数 Max:5)
      * @param allSong データベース内の楽曲
      * @return songBox 次の5曲
      */
-    private List<Song> StoreSong(int end, List<Song> allSong) {
+    private List<Song> peekQueue(int end, List<Song> allSong) {
         int count = 0;
         List<Song> songBox = new ArrayList<>(); // シャッフル楽曲格納用
         Random rand = new Random();
         while (count < end) { // PEEKMAX分だけsongBoxに曲を格納
             int i = rand.nextInt(allSong.size());
-            if (allSong.get(i).getStatus() == 0) {
-                if (songBox == null) {  // PEEKMAXがデータベースのデータ数を上回った時用
-                    if (songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()) {
-                        songBox.add(allSong.get(i));
-                        allSong.get(i).setStatus(1);
-                        count++;
-                    }
-                } else {
-                    songBox.add(allSong.get(i));
-                    allSong.get(i).setStatus(1);
-                    count++;
-                }
+            if (allSong.get(i).getStatus() == 0 && songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()) {
+                
+                songBox.add(allSong.get(i));
+                allSong.get(i).setStatus(1);
+                count++;
             }
             if (countStatus(allSong) == 0) { // もし全ての曲を格納した場合はstatusを0に戻す
                 resetStatus(allSong);

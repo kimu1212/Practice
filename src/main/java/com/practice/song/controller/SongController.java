@@ -22,6 +22,7 @@ public class SongController {
     public String song(Model model) {
         List<Song> songs = service.findAll();
         if (songBox == null) {
+            resetStatus(songs);
             songBox = peekQueue(PEEKMAX, songs);
         }
         model.addAttribute("Songs", songBox);

@@ -17,4 +17,9 @@ public class SongService {
     public List<Song> findAll() {
         return repository.findAll(new Sort(Sort.Direction.ASC, "id"));
     }
+
+    public void updateData() {
+        repository.flush();
+    }
+
 }

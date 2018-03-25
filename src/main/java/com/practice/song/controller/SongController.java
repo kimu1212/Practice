@@ -43,7 +43,7 @@ public class SongController {
         while (count < end) { // PEEKMAX分だけsongBoxに曲を格納
             int i = rand.nextInt(allSong.size());
             if (allSong.get(i).getStatus() == 0) {
-                if (songBox.size() > 0) {  // PEEKMAXがデータベースのデータ数を上回った時用
+                if (songBox.size() > 0) {
                     if (songBox.get(songBox.size() - 1).getId() != allSong.get(i).getId()) {
                         songBox.add(allSong.get(i));
                         allSong.get(i).setStatus(1);
@@ -55,6 +55,7 @@ public class SongController {
                     count++;
                 }
             }
+            service.updateData();
             if (countStatus(allSong) == 0) { // もし全ての曲を格納した場合はstatusを0に戻す
                 resetStatus(allSong);
             }
@@ -80,10 +81,11 @@ public class SongController {
             int r = rand.nextInt(allSong.size());
 
             // 未再生かつ前後で楽曲が被らないように
-            if (allSong.get(r).getStatus() == 0 & allSong.get(r).getId() != songBox.get(songBox.size() - 1).getId()) {
+            if (allSong.get(r).getStatus() == 0 && allSong.get(r).getId() != songBox.get(songBox.size() - 1).getId()) {
                 songBox.add(allSong.get(r));
                 allSong.get(r).setStatus(1);
                 songBox.remove(0);
+                service.updateData();
                 break;
             }
         }
@@ -119,6 +121,7 @@ public class SongController {
         for (int i = 0; i < allSong.size(); i++) {
             allSong.get(i).setStatus(0);
         }
+        service.updateData();
     }
 
 }

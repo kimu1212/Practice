@@ -1,11 +1,6 @@
 package com.practice.song.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -39,5 +34,10 @@ public class Song implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    @PostUpdate
+    public void onPreUpdate() {
+        setStatus(status);
     }
 }

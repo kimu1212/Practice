@@ -6,15 +6,18 @@
 </head>
 <body>
 ---Play---
-<p th:text="${Next.getName()}"></p>
----NextMusic--
 <p th:text="${Songs.get(0).getName()}"></p>
+---NextMusic--
 <p th:text="${Songs.get(1).getName()}"></p>
 <p th:text="${Songs.get(2).getName()}"></p>
 <p th:text="${Songs.get(3).getName()}"></p>
 <p th:text="${Songs.get(4).getName()}"></p>
+<p th:text="${Songs.get(5).getName()}"></p>
 <form method="get">
-    <button type="update">NEXT</button>
+    <input type="submit" name="Next" value="次へ" />
+    <input type="submit" name="Sort" value="ソート順" />
+    <input type="submit" name="Shuffle" value="シャッフル" />
+    <input type="submit" name="Favorite" value="お気に入り" />
 </form>
 </body>
 </html>

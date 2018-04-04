@@ -17,7 +17,7 @@ public class Song implements Serializable {
     private int status;
 
     @Column(nullable = false)
-    private int favorite;
+    private String  tag;
 
     public String getName() {
         return name;
@@ -31,8 +31,8 @@ public class Song implements Serializable {
         return status;
     }
 
-    public int getFavorite() {
-        return favorite;
+    public String getTag() {
+        return tag;
     }
 
     public void setName(String name) {
@@ -43,13 +43,13 @@ public class Song implements Serializable {
         this.status = status;
     }
 
-    public void setFavorite(int favorite) {
-        this.favorite = favorite;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     @PostUpdate
     public void onPreUpdate() {
         setStatus(status);
-        setFavorite(favorite);
+        setTag(tag);
     }
 }

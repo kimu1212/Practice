@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>top</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-再生スタイルを選んでください
-<form method="get">
-    <input type="submit" name="Sort" value="ソート順" />
-    <input type="submit" name="Shuffle" value="シャッフル" />
-    <input type="submit" name="Favorite" value="お気に入り" />
-</form>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<div class="container">
+    <h1>再生スタイルを選んでください</h1>
+    <form method="get">
+        <input type="submit" class="btn btn-default" name="Sort" value="ソート順"/>
+        <input type="submit" class="btn btn-default" name="Shuffle" value="シャッフル"/>
+        <input type="submit" class="btn btn-default" name="Favorite" value="お気に入り"/>
+    </form>
+</div>
 </body>
 </html>

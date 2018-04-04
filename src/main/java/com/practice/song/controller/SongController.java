@@ -27,6 +27,7 @@ public class SongController {
         playStyle = 0;
         List<Song> songs = service.findAll();
         songBox = service.getSortSongs(songs);
+        model.addAttribute("Style", "通常再生");
         model.addAttribute("Songs", songBox);
         return "song";
     }
@@ -37,6 +38,7 @@ public class SongController {
         List<Song> songs = service.findAll();
         service.resetStatus(songs);
         songBox = service.peekQueue(songs);
+        model.addAttribute("Style", "シャッフル再生");
         model.addAttribute("Songs", songBox);
         return "song";
     }
@@ -47,8 +49,10 @@ public class SongController {
         List<Song> songs = service.findAll();
         if (playStyle == 0) {
             songBox = service.getNextSortSong(songs, songBox);
+            model.addAttribute("Style", "通常再生");
         } else if (playStyle == 1) {
             songBox = service.getNextSong(songs, songBox);
+            model.addAttribute("Style", "シャッフル再生");
         }
         model.addAttribute("Songs", songBox);
         return "song";
